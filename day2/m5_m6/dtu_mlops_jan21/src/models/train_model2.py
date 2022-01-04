@@ -1,17 +1,15 @@
 import argparse
-import sys,os
-
-import torch
-from torch import nn, optim
-from torch.utils import data
-
-from torch.utils.data import Dataset
+import os
+import sys
 
 import matplotlib.pyplot as plt
-
+import torch
 from model import MyAwesomeModel
+from torch import nn, optim
+from torch.utils import data
+from torch.utils.data import Dataset
 
-from src.data.dataset import MnistDataset 
+from src.data.dataset import MnistDataset
 
 project_dir =  os.path.abspath(os.path.join(__file__ ,"../../.."))+"/"
 

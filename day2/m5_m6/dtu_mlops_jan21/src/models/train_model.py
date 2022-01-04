@@ -1,13 +1,12 @@
 import os
+
 import click
+import matplotlib.pyplot as plt
 import torch
+from model import MyAwesomeModel
 from torch import nn, optim
 
-import matplotlib.pyplot as plt
-
-from model import MyAwesomeModel
-
-from src.data.dataset import MnistDataset 
+from src.data.dataset import MnistDataset
 
 project_dir =  os.path.abspath(os.path.join(__file__ ,"../../.."))+"/"
 

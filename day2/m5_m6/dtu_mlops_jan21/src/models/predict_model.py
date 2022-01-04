@@ -2,7 +2,6 @@ import os
 
 import click
 import torch
-
 from model import MyAwesomeModel
 
 from src.data.dataset import MnistDataset

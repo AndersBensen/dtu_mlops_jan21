@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-import click
 import logging
 from pathlib import Path
-from dotenv import find_dotenv, load_dotenv
+
+import click
 import numpy as np
 import torch
+from dotenv import find_dotenv, load_dotenv
+
 
 def save_tensor(tensor, path):
     torch.save(tensor, path)

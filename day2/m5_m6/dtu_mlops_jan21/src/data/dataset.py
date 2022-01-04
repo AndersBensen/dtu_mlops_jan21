@@ -1,6 +1,7 @@
 import torch
 from torch.utils.data import Dataset
 
+
 class MnistDataset(Dataset):
     def __init__(self, path):
         self.ids = torch.load(path)

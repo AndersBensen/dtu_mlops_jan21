@@ -2,16 +2,16 @@ corrupt_mnist
 ==============================
 
 To run the project we iniitally make the dataset, noting input and output paths:
-python src/data/make_dataset.py data/raw data/processed
+- python src/data/make_dataset.py data/raw data/processed
 
 We can then train our model by specifying the saved tensor: 
-python src/models/train_model.py data/processed/train_tensor.pt
+- python src/models/train_model.py data/processed/train_tensor.pt
 
 We can validate our model by giving a input model and an input test tensor:
-python src/models/predict_model.py models/running_model.pth data/processed/test_tensor.pt
+- python src/models/predict_model.py models/running_model.pth data/processed/test_tensor.pt
 
 We can visualize features from the second last layer of the trained model: 
-python src/visualization/visualize.py
+- python src/visualization/visualize.py
 
 
 A project which makes a Corrupt Mnist model with CoookieCutter structure

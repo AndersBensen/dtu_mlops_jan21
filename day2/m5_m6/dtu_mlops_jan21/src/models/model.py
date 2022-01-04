@@ -1,5 +1,5 @@
-from torch import nn
 import torch.nn.functional as F
+from torch import nn
 
 #### FNN version
 # class MyAwesomeModel(nn.Module):
