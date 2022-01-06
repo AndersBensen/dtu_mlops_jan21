@@ -10,9 +10,6 @@ from torch import nn
 from src.data.dataset import MnistDataset
 from src.models.model import MyAwesomeModel
 
-project_dir = os.path.abspath(os.path.join(__file__, "../../..")) + "/"
-
-
 def main():
     """
     This method loads a pretrained MNIST model and defines a new models with all but the last
@@ -59,7 +56,7 @@ def main():
     tsne = TSNE(2)
     tsne_result = tsne.fit_transform(df)
     plt.scatter(tsne_result[:, 0], tsne_result[:, 1])
-    plt.savefig(project_dir + "/reports/figures/TSNE_plot.png")
+    plt.savefig("reports/figures/TSNE_plot.png")
 
 
 if __name__ == "__main__":

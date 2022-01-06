@@ -6,19 +6,15 @@ from model import MyAwesomeModel
 
 from src.data.dataset import MnistDataset
 
-project_dir =  os.path.abspath(os.path.join(__file__ ,"../../.."))+"/"
-
 
 @click.command()
 @click.argument('input_model', type=click.Path(exists=True))
 @click.argument('input_data', type=click.Path())
 def main(input_model, input_data):
     print("Evaluating until hitting the ceiling")
-
     print(f'Using the model: {input_model}')
     print(f'Training data dir: {input_data}')
     
-    # TODO: Implement evaluation logic here
     model = MyAwesomeModel()
     state_dict = torch.load(input_model)
     model.load_state_dict(state_dict)

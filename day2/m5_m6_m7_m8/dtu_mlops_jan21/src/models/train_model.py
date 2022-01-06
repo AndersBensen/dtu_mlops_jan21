@@ -7,15 +7,21 @@ from model import MyAwesomeModel
 from torch import nn, optim
 
 from src.data.dataset import MnistDataset
+import hydra 
 
-project_dir =  os.path.abspath(os.path.join(__file__ ,"../../.."))+"/"
+seed = 0
 
 @click.command()
 @click.argument('input_data', type=click.Path(exists=True))
 def main(input_data):
         print(f'Training data dir: {input_data}')
         
-        # TODO: Implement training loop here
+        #First training parameters
+        # seed = cfg.hyperparameters.seed 
+        # learning_rate = cfg.hyperparameters.lr
+        # batch_size = cfg.hyperparameters.batch_size
+
+        # torch.manual_seed(seed)
         model = MyAwesomeModel()
         criterion = nn.NLLLoss()    
         optimizer = optim.Adam(model.parameters(), lr=float(1e-4))
@@ -23,7 +29,7 @@ def main(input_data):
         train_set = MnistDataset(input_data)
         trainloader = torch.utils.data.DataLoader(train_set, batch_size=64, shuffle=True)
 
-        epochs = 10
+        epochs = 5
 
         train_losses = []
 
@@ -45,14 +51,12 @@ def main(input_data):
             train_losses.append(train_loss)
             print(f"Training loss: {train_loss}")
             print('-'*35)
-
-            save_dir = project_dir+"/models/"
-            torch.save(model.state_dict(), save_dir+'running_model.pth')
+            torch.save(model.state_dict(), 'models/running_model.pth')
 
         plt.plot(train_losses)
         plt.xlabel("Epochs")
         plt.ylabel("Training loss")
-        plt.savefig(project_dir+"/reports/figures/training_plot.png")
+        plt.savefig("reports/figures/training_plot.png")
     
 if __name__ == '__main__':
     main()
