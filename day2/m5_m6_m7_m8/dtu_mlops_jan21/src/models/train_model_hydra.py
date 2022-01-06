@@ -7,21 +7,44 @@ from model import MyAwesomeModel
 from torch import nn, optim
 
 from src.data.dataset import MnistDataset
+import hydra 
 
+# Training params
+batch_size = 0
+learning_rate = 0
+epochs = 0
+data_dir = ""
 
-@click.command()
-@click.argument('input_data', type=click.Path(exists=True))
-def main(input_data):
-        print(f'Training data dir: {input_data}')
+# Model params
+seed = 0
 
+@hydra.main(config_name="training_config.yaml")
+def set_training_params(cfg):
+    global learning_rate
+    learning_rate = cfg.hyperparameters.learning_rate
+    global batch_size
+    batch_size = cfg.hyperparameters.batch_size
+    global epochs
+    epochs = cfg.hyperparameters.epochs
+    global data_dir
+    data_dir = cfg.hyperparameters.data_dir
+
+@hydra.main(config_name="model_config.yaml")
+def set_model_params(cfg):
+    global seed 
+    seed = cfg.hyperparameters.seed 
+
+def main():
+        print(f'Training data dir: {data_dir}')
+        torch.manual_seed(seed)
         model = MyAwesomeModel()
         criterion = nn.NLLLoss()    
-        optimizer = optim.Adam(model.parameters(), lr=float(1e-4))
+        optimizer = optim.Adam(model.parameters(), lr=float(learning_rate))
 
-        train_set = MnistDataset(input_data)
-        trainloader = torch.utils.data.DataLoader(train_set, batch_size=64, shuffle=True)
+        train_set = MnistDataset(data_dir)
+        trainloader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
 
-        epochs = 10
+        epochs = 5
 
         train_losses = []
 
@@ -49,6 +72,9 @@ def main(input_data):
         plt.xlabel("Epochs")
         plt.ylabel("Training loss")
         plt.savefig("reports/figures/training_plot.png")
-    
+
+
 if __name__ == '__main__':
+    set_training_params()
+    set_model_params()
     main()
