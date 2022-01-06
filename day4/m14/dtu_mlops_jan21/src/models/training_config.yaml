@@ -1,0 +1,9 @@
+#config.yaml
+hyperparameters:
+  data_dir: 'data/processed/train_tensor.pt'
+  test_dir: 'data/processed/test_tensor.pt'
+  epochs: 5
+  batch_size: 100
+  learning_rate: 1e-4
+  
+  

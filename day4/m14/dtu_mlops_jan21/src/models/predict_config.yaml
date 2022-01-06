@@ -1,0 +1,4 @@
+#config.yaml
+hyperparameters:
+  input_data: 'data/processed/test_tensor.pt'
+  model: 'models/running_model.pth'
