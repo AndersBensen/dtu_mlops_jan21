@@ -9,7 +9,8 @@ on:
 jobs:
   build:
     defaults:
-      working-directory: day2/m5_m6_m7_m8/dtu_mlops_jan21/
+      run:
+        working-directory: day2/m5_m6_m7_m8/dtu_mlops_jan21/
 
 
     runs-on: ubuntu-latest
