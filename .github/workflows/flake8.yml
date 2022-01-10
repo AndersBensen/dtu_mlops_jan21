@@ -29,8 +29,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements_tests.txt
-    - name: Test with isort
+    - name: Test with flake8
       run: |
         pip install flake8
-        flak8e ./
+        flake8 ./
 
