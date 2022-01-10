@@ -8,6 +8,9 @@ on:
 
 jobs:
   build:
+    defaults:
+      working-directory: day2/m5_m6_m7_m8/dtu_mlops_jan21/
+
 
     runs-on: ubuntu-latest
 
@@ -21,8 +24,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r day2/m5_m6_m7_m8/dtu_mlops_jan21/requirements.txt
-        pip install -r day2/m5_m6_m7_m8/dtu_mlops_jan21/requirements_tests.txt
+        pip install -r requirements.txt
+        pip install -r requirements_tests.txt
     - name: Test with pytest
       run: |
         pip install pytest
