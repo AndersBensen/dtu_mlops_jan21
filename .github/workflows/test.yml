@@ -8,6 +8,10 @@ on:
 
 jobs:
   build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, macOS-10.15, windows-2019]
     defaults:
       run:
         working-directory: day2/m5_m6_m7_m8/dtu_mlops_jan21/
