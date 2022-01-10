@@ -42,7 +42,7 @@ def main():
         optimizer = optim.Adam(model.parameters(), lr=float(learning_rate))
 
         train_set = MnistDataset(data_dir)
-        trainloader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
+        trainloader = torch.utils.data.DataLoader(train_set[:3], batch_size=batch_size, shuffle=True)
 
         epochs = 5
 
