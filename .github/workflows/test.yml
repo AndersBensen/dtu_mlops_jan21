@@ -16,9 +16,6 @@ jobs:
       run:
         working-directory: day2/m5_m6_m7_m8/dtu_mlops_jan21/
 
-
-    runs-on: [ubuntu-latest, windows-latest, macOS-latest]
-
     steps:
     - name: Checkout
       uses: actions/checkout@v2
