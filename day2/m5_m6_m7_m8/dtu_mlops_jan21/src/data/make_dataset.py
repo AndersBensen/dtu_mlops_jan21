@@ -12,7 +12,6 @@ def save_tensor(tensor, path):
     torch.save(tensor, path)
 
 
-
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
 @click.argument('output_filepath', type=click.Path())
@@ -23,7 +22,6 @@ def main(input_filepath, output_filepath):
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
 
-
     test_ids = []
     test_path = input_filepath + "/test.npz"
     test = np.load(test_path)
@@ -32,10 +30,10 @@ def main(input_filepath, output_filepath):
 
     for i in range(len(test_labels)):
         test_ids.append((torch.tensor(test_images[i]), torch.tensor(test_labels[i])))
-    
-    torch.save(test_ids, output_filepath+"/test_tensor.pt")
 
-    train_paths = [input_filepath + "/train_" + str(i)+".npz" for i in range(5)]    
+    torch.save(test_ids, output_filepath + "/test_tensor.pt")
+
+    train_paths = [input_filepath + "/train_" + str(i) + ".npz" for i in range(5)]
     train_ids = []
     trains = [np.load(i) for i in train_paths]
     train_images = [i['images'] for i in trains]
@@ -44,10 +42,9 @@ def main(input_filepath, output_filepath):
     images_concat = np.concatenate(train_images, axis=0)
     labels_concat = np.concatenate(train_labels, axis=0)
     for i in range(len(labels_concat)):
-        train_ids.append((torch.tensor(images_concat[i]),torch.tensor(labels_concat[i])))
-    
-    torch.save(train_ids, output_filepath+"/train_tensor.pt")
+        train_ids.append((torch.tensor(images_concat[i]), torch.tensor(labels_concat[i])))
 
+    torch.save(train_ids, output_filepath + "/train_tensor.pt")
 
 
 if __name__ == '__main__':

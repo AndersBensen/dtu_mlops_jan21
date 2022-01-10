@@ -1,7 +1,7 @@
 import torch.nn.functional as F
 from torch import nn
 
-#### FNN version
+# FNN version
 # class MyAwesomeModel(nn.Module):
 #     def __init__(self):
 #         super().__init__()
@@ -10,22 +10,23 @@ from torch import nn
 #         self.fc2 = nn.Linear(256, 128)
 #         self.fc3 = nn.Linear(128, 64)
 #         self.fc4 = nn.Linear(64, 10)
-        
+
 #         self.dropout = nn.Dropout(p=0.3)
-        
+
 #     def forward(self, x):
 
 #         x = x.view(x.shape[0], -1)
-        
+
 #         x = self.dropout(F.relu(self.fc1(x)))
 #         x = self.dropout(F.relu(self.fc2(x)))
 #         x = self.dropout(F.relu(self.fc3(x)))
-        
+
 #         x = F.log_softmax(self.fc4(x), dim=1)
-        
+
 #         return x
 
-#### CNN version
+
+# CNN version
 class MyAwesomeModel(nn.Module):
     def __init__(self):
         super().__init__()
@@ -41,9 +42,9 @@ class MyAwesomeModel(nn.Module):
         self.fc_2 = nn.Linear(64, 10)
 
     def forward(self, x):
-        if (x.ndim != 3): 
-            raise ValueError('Expected shape to be [x,28,28]')
-        x = x.reshape(x.shape[0],1,x.shape[1],x.shape[2])
+        if (x.ndim != 3):
+            raise ValueError('Expected shape to be [x, 28, 28]')
+        x = x.reshape(x.shape[0], 1, x.shape[1], x.shape[2])
 
         x = self.pool_1(F.relu(self.conv_1(x)))
         x = self.dropout_1(x)

@@ -1,6 +1,3 @@
-import os
-
-import click
 import matplotlib.pyplot as plt
 import pandas as pd
 import torch
@@ -9,6 +6,7 @@ from torch import nn
 
 from src.data.dataset import MnistDataset
 from src.models.model import MyAwesomeModel
+
 
 def main():
     """
@@ -42,8 +40,8 @@ def main():
     labels = []
 
     for image, label in train_set:
-        pred = feature_model(img.float())
-        ps = torch.exp(pred)
+        pred = feature_model(image.float())
+        _ = torch.exp(pred)
         features.append(pred)
         labels.append(int(label))
 
