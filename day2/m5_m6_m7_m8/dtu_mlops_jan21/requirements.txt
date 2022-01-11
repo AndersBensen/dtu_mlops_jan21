@@ -7,3 +7,4 @@ python-dotenv==0.19.2
 scikit_learn==1.0.2
 setuptools==60.2.0
 torch==1.10.0
+hydra-core==1.1.1

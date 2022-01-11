@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import torch
 from model import MyAwesomeModel
 from torch import nn, optim
+import os
 
 from src.data.dataset import MnistDataset
 
@@ -41,11 +42,13 @@ def main(input_data):
         train_losses.append(train_loss)
         print(f"Training loss: {train_loss}")
         print('-' * 35)
+        os.makedirs("models/", exist_ok=True)
         torch.save(model.state_dict(), 'models/running_model.pth')
 
     plt.plot(train_losses)
     plt.xlabel("Epochs")
     plt.ylabel("Training loss")
+    os.makedirs("reports/figures/", exist_ok=True)
     plt.savefig("reports/figures/training_plot.png")
 
 
