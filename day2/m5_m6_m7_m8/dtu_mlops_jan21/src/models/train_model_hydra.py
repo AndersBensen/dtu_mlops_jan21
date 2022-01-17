@@ -1,9 +1,11 @@
+import logging
+import os
+
 import hydra
-import matplotlib.pyplot as plt
 import torch
+from google.cloud import storage
 from model import MyAwesomeModel
 from torch import nn, optim
-import os
 
 from src.data.dataset import MnistDataset
 
@@ -15,6 +17,25 @@ data_dir = ""
 
 # Model params
 seed = 0
+gcloud_dir = ""
+
+log = logging.getLogger(__name__)
+
+
+def save_model(gcloud_dir, local_dir):
+    """Saves the model to Google Cloud Storage"""
+    log.info(f"---  Saving model on gcloud at: {gcloud_dir}  ---")
+    bucket = storage.Client().bucket(gcloud_dir)
+    if (os.path.isdir(local_dir)):
+        files = os.listdir(local_dir)
+        for f in files:
+            blob = bucket.blob(local_dir + f)
+            blob.chunk_size = 5 * 1024 * 1024  # Increase upload time to prevent timeout
+            blob.upload_from_filename(local_dir + f)
+    else:
+        blob = bucket.blob(local_dir)
+        blob.chunk_size = 5 * 1024 * 1024  # Increase upload time to prevent timeout
+        blob.upload_from_filename(local_dir)
 
 
 @hydra.main(config_name="training_config.yaml")
@@ -27,6 +48,8 @@ def set_training_params(cfg):
     epochs = cfg.hyperparameters.epochs
     global data_dir
     data_dir = cfg.hyperparameters.data_dir
+    global gcloud_dir
+    gcloud_dir = cfg.hyperparameters.gcloud_dir
 
 
 @hydra.main(config_name="model_config.yaml")
@@ -42,6 +65,8 @@ def main():
     criterion = nn.NLLLoss()
     optimizer = optim.Adam(model.parameters(), lr=float(learning_rate))
 
+    working_dir = hydra.utils.get_original_cwd()
+
     train_set = MnistDataset(data_dir)
     trainloader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
 
@@ -50,7 +75,7 @@ def main():
     train_losses = []
 
     for e in range(epochs):
-        print(f"##### Epoch {e} ######")
+        log.info(f"##### Epoch {e} ######")
 
         running_loss = 0
         for images, labels in trainloader:
@@ -65,16 +90,16 @@ def main():
             running_loss += loss.item()
         train_loss = running_loss / len(trainloader)
         train_losses.append(train_loss)
-        print(f"Training loss: {train_loss}")
-        print('-' * 35)
-        os.makedirs("models/", exist_ok=True)
-        torch.save(model.state_dict(), 'models/running_model.pth')
+        log.info(f"Training loss: {train_loss}")
+        log.info('-' * 35)
+        torch.save(model.state_dict(), working_dir + 'models/running_model.pth')
+    save_model(gcloud_dir, working_dir + 'models/running_model.pth')
 
-    plt.plot(train_losses)
-    plt.xlabel("Epochs")
-    plt.ylabel("Training loss")
-    os.makedirs("reports/figures/", exist_ok=True)
-    plt.savefig("reports/figures/training_plot.png")
+    # plt.plot(train_losses)
+    # plt.xlabel("Epochs")
+    # plt.ylabel("Training loss")
+    # os.makedirs("reports/figures/", exist_ok=True)
+    # plt.savefig("reports/figures/training_plot.png")
 
 
 if __name__ == '__main__':

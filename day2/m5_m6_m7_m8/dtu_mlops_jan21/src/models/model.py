@@ -42,8 +42,8 @@ class MyAwesomeModel(nn.Module):
         self.fc_2 = nn.Linear(64, 10)
 
     def forward(self, x):
-        if (x.ndim != 3):
-            raise ValueError('Expected shape to be [x, 28, 28]')
+        # if (x.ndim != 3):
+        #     raise ValueError('Expected shape to be [x, 28, 28]')
         x = x.reshape(x.shape[0], 1, x.shape[1], x.shape[2])
 
         x = self.pool_1(F.relu(self.conv_1(x)))

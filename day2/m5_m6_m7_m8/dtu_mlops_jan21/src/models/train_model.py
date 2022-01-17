@@ -1,11 +1,32 @@
+import logging
+import os
+
 import click
 import matplotlib.pyplot as plt
 import torch
+from google.cloud import storage
 from model import MyAwesomeModel
 from torch import nn, optim
-import os
 
 from src.data.dataset import MnistDataset
+
+log = logging.getLogger(__name__)
+
+
+def save_model(gcloud_dir, local_dir):
+    """Saves the model to Google Cloud Storage"""
+    log.info(f"Saving model on gcloud at: {gcloud_dir}")
+    bucket = storage.Client().bucket(gcloud_dir)
+    if (os.path.isdir(local_dir)):
+        files = os.listdir(local_dir)
+        for f in files:
+            blob = bucket.blob(local_dir + f)
+            blob.chunk_size = 5 * 1024 * 1024  # Increase upload time to prevent timeout
+            blob.upload_from_filename(local_dir + f)
+    else:
+        blob = bucket.blob(local_dir)
+        blob.chunk_size = 5 * 1024 * 1024  # Increase upload time to prevent timeout
+        blob.upload_from_filename(local_dir)
 
 
 @click.command()
@@ -44,6 +65,7 @@ def main(input_data):
         print('-' * 35)
         os.makedirs("models/", exist_ok=True)
         torch.save(model.state_dict(), 'models/running_model.pth')
+    save_model()
 
     plt.plot(train_losses)
     plt.xlabel("Epochs")

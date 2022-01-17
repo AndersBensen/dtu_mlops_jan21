@@ -1,8 +1,9 @@
 #config.yaml
 hyperparameters:
-  data_dir: 'data/processed/train_tensor.pt'
+  data_dir: 'data/processed/test_tensor.pt'
   epochs: 5
-  batch_size: 100
+  batch_size: 128
   learning_rate: 1e-4
+  gcloud_dir: 'mlops-project-338109-aiplatform'
   
   
